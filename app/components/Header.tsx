@@ -1,14 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { BookOpen, ShoppingCart, Menu, X, UserPlus } from 'lucide-react';
 import Link from 'next/link';
-
-import { BookOpen, Search, ShoppingCart, User, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cartItemCount = 3;
+  const { isSignedIn, user } = useUser(); // Clerk hook
+
+  // 👉 Log user info in console
+  useEffect(() => {
+    if (isSignedIn) {
+      console.log('🔐 Logged in user:', user);
+    } else {
+      console.log('🚫 No user is signed in.');
+    }
+  }, [isSignedIn, user]);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm border-b">
@@ -17,49 +27,28 @@ export const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 text-blue-900">
             <BookOpen className="h-8 w-8" />
-            <span className="text-2xl font-bold">BookStore</span>
+            <span className="text-2xl font-bold">Book</span>
+            <span className="text-2xl font-bold text-emerald-500">Store</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Books
-            </Link>
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Categories
-            </Link>
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Bestsellers
-            </Link>
-            <Link
-              href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              About
-            </Link>
+          <nav className="hidden md:flex items-center space-x-4">
+            {['/', '/books', '/bestsellers', '/about'].map((path, index) => {
+              const labels = ['Home', 'Books', 'Bestsellers', 'About'];
+              return (
+                <Link
+                  key={index}
+                  href={path}
+                  className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                >
+                  {labels[index]}
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* Right Side Actions */}
+          {/* Right Side */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Search className="h-5 w-5" />
-            </Button>
-
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="h-5 w-5" />
               {cartItemCount > 0 && (
@@ -69,9 +58,20 @@ export const Header = () => {
               )}
             </Button>
 
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+
+            <SignedOut>
+              <div className="hidden md:flex items-center space-x-2">
+                <Link href="/signup">
+                  <Button size="sm">
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            </SignedOut>
 
             {/* Mobile menu button */}
             <Button
@@ -89,51 +89,34 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden border-t py-4">
-            <nav className="flex flex-col space-y-3">
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Books
-              </Link>
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Categories
-              </Link>
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Bestsellers
-              </Link>
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <div className="pt-3 border-t">
-                <Button variant="outline" className="w-full justify-start">
-                  <Search className="h-4 w-4 mr-2" />
-                  Search Books
-                </Button>
-              </div>
+            <nav className="flex flex-col space-y-2">
+              {['/', '/books', '/bestsellers', '/about'].map((path, index) => {
+                const labels = ['Home', 'Books', 'Bestsellers', 'About'];
+                return (
+                  <Link
+                    key={index}
+                    href={path}
+                    className="text-gray-700 hover:text-blue-600 font-medium transition-colors py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {labels[index]}
+                  </Link>
+                );
+              })}
+
+              <SignedOut>
+                <div className="pt-3 border-t space-y-2">
+                  <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full justify-start">
+                      <UserPlus className="h-4 w-4 mr-2" />
+                      Sign Up
+                    </Button>
+                  </Link>
+                </div>
+              </SignedOut>
             </nav>
           </div>
         )}
