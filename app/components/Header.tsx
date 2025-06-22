@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { BookOpen, ShoppingCart, Menu, X, UserPlus } from 'lucide-react';
+import { BookOpen, ShoppingCart, Menu, X, UserPlus, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 
 export const Header = () => {
@@ -64,6 +65,13 @@ export const Header = () => {
 
             <SignedOut>
               <div className="hidden md:flex items-center space-x-2">
+                {/* signin */}
+                <Link href="/signin">
+                  <Button variant="outline" size="sm">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Sign In
+                  </Button>
+                </Link>
                 <Link href="/signup">
                   <Button size="sm">
                     <UserPlus className="h-4 w-4 mr-2" />
@@ -75,8 +83,6 @@ export const Header = () => {
 
             {/* Mobile menu button */}
             <Button
-              variant="ghost"
-              size="icon"
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -109,6 +115,13 @@ export const Header = () => {
 
               <SignedOut>
                 <div className="pt-3 border-t space-y-2">
+                  <Link href="/signin" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" className="w-full justify-start">
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+
                   <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
                     <Button className="w-full justify-start">
                       <UserPlus className="h-4 w-4 mr-2" />
