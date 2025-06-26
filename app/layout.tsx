@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Roboto_Mono } from 'next/font/google';
 import './globals.css';
-import { Header } from './components/Header';
 import { ClerkProvider } from '@clerk/nextjs';
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+import { Header } from './components/Header';
+
+const inter = Inter({
   subsets: ['latin'],
+  variable: '--font-sans',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const mono = Roboto_Mono({
   subsets: ['latin'],
+  variable: '--font-mono',
 });
 
 export const metadata: Metadata = {
@@ -21,15 +22,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+        <body className={`${inter.variable} ${mono.variable} antialiased`}>
           <Header />
           {children}
         </body>
