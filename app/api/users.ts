@@ -1,44 +1,25 @@
-import { connectDB } from '@/lib/db';
-import User from '@/models/User';
-import { auth } from '@clerk/nextjs/server';
+import { saveUserToDB } from '@/utils/saveUserToDB';
+import { currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 export async function POST() {
   try {
-    const { userId } = await auth();
+    const clerkUser = await currentUser();
 
-    if (!userId) {
+    if (!clerkUser) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await connectDB();
+    const userData = {
+      clerkId: clerkUser.id,
+      name: `${clerkUser.firstName} ${clerkUser.lastName}`,
+      email: clerkUser.emailAddresses[0].emailAddress,
+      image: clerkUser.imageUrl,
+    };
 
-    let user = await User.findOne({ clerkId: userId });
+    await saveUserToDB(userData);
 
-    if (!user) {
-      const response = await fetch(`https://api.clerk.dev/v1/users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${process.env.CLERK_SECRET_KEY!}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch user data from Clerk');
-      }
-
-      const clerkUser = await response.json();
-
-      user = await User.create({
-        clerkId: userId,
-        name: `${clerkUser.first_name} ${clerkUser.last_name}`,
-        email: clerkUser.email_addresses[0]?.email_address,
-        image: clerkUser.image_url,
-        role: 'user',
-        createdAt: new Date(),
-      });
-    }
-
-    return NextResponse.json({ user });
+    return NextResponse.json({ message: 'User saved successfully' });
   } catch (error) {
     console.error('Error saving user:', error);
     return NextResponse.json(
