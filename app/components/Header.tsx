@@ -28,8 +28,10 @@ export const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 text-blue-900">
             <BookOpen className="h-8 w-8" />
-            <span className="text-2xl font-bold">Book</span>
-            <span className="text-2xl font-bold text-emerald-500">Store</span>
+            <p className="text-2xl font-bold">
+              Book
+              <span className="text-2xl font-bold text-emerald-500">Store</span>
+            </p>
           </Link>
 
           {/* Desktop Navigation */}
@@ -60,7 +62,10 @@ export const Header = () => {
             </Button>
 
             <SignedIn>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton userProfileUrl="/dashboard" />
+              <Button className="bg-emerald-500 hover:bg-emerald-600 ">
+                <Link href="/book-dashboard">Deshboard</Link>
+              </Button>
             </SignedIn>
 
             <SignedOut>
