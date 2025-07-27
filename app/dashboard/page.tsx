@@ -7,18 +7,21 @@ import { useRouter } from 'next/navigation';
 export default function DashboardPage() {
   const { isSignedIn } = useUser();
   const router = useRouter();
+
   useEffect(() => {
-    if (isSignedIn) {
+    if (typeof window !== 'undefined' && isSignedIn) {
       fetch('/api/users', {
         method: 'POST',
       });
+      router.push('/');
     }
-    router.push('/');
   }, [isSignedIn, router]);
 
   return (
     <>
-      <SignedIn></SignedIn>
+      <SignedIn>
+        {/* Render dashboard content here */}
+      </SignedIn>
 
       <SignedOut>
         <RedirectToSignIn />
