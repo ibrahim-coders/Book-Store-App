@@ -20,7 +20,7 @@ export default function DashboardPage() {
   return (
     <>
       <SignedIn>
-        {/* Render dashboard content here */}
+       
       </SignedIn>
 
       <SignedOut>

@@ -3,7 +3,7 @@ import { Inter, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Header } from './components/Header';
-
+import {Footer} from './components/Footer'
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -31,6 +31,7 @@ export default function RootLayout({
         <body className={`${inter.variable} ${mono.variable} antialiased`}>
           <Header />
           {children}
+          <Footer/>
         </body>
       </html>
     </ClerkProvider>
