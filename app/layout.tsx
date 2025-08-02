@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
-import { Header } from './components/Header';
-import {Footer} from './components/Footer'
+import LayoutWrapper from './components/LayoutWrapper';
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -29,9 +29,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${inter.variable} ${mono.variable} antialiased`}>
-          <Header />
-          {children}
-          <Footer/>
+          <LayoutWrapper>{children}</LayoutWrapper>
         </body>
       </html>
     </ClerkProvider>

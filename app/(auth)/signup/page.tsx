@@ -8,18 +8,18 @@ import { Home } from 'lucide-react';
 export default function SignUpPage() {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      {/* Left Side - Image with Overlay Text */}
+      {/* Left Side - Library Image */}
       <div className="relative hidden md:block">
         <Image
-          src="https://images.unsplash.com/photo-1581093588401-8459afdd7a5b?auto=format&fit=crop&w=1000&q=80"
-          alt="JavaScript Book"
+          src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1600&q=80"
+          alt="Library Books"
           fill
           priority
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-4">
-          <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold text-center leading-tight">
-            Learn JavaScript <br /> & Build Awesome Projects 🚀
+          <h2 className="text-white text-4xl lg:text-5xl font-bold text-center leading-tight">
+            Explore Books
           </h2>
         </div>
       </div>

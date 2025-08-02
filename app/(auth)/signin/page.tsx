@@ -8,18 +8,21 @@ import { Home } from 'lucide-react';
 export default function SignInPage() {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      {/* Left Side - Programming Book Image */}
+      {/* Left Side - Library Image with Overlay Text */}
       <div className="relative hidden md:block">
         <Image
-          src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=1000&q=80"
-          alt="Programming Books"
+          src="https://images.unsplash.com/photo-1535905748047-14b3f21b46c7?auto=format&fit=crop&w=1600&q=80"
+          alt="Library with Books"
           fill
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center px-4">
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-6">
           <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold text-center leading-tight">
-            Dive Into Programming <br /> and Build Real-World Apps 💻📘
+            Welcome Back to <br />
+            <span className="text-yellow-300">The Digital Library 📚</span>
+            <br />
+            Discover, Read, and Grow!
           </h2>
         </div>
       </div>

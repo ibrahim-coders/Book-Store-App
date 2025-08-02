@@ -1,13 +1,11 @@
 'use client';
 
-// import Image from 'next/image';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { UserButton } from '@clerk/nextjs';
-import { Book, LayoutDashboard } from 'lucide-react';
+import { Book, LayoutDashboard, Plus } from 'lucide-react';
 
-export default function SideNavigationUserProfile({
+export default function SideNavigationLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -16,10 +14,10 @@ export default function SideNavigationUserProfile({
 
   return (
     <>
-      {/* Toggle Button */}
+      {/* Menu Toggle Button */}
       <Button
         type="button"
-        className={`visible fixed left-6 top-6 z-40 block h-10 w-10 rounded bg-white opacity-100 lg:hidden ${
+        className={`visible fixed left-6 top-6 z-40 block h-10 w-10 rounded bg-white lg:hidden ${
           isSideNavOpen
             ? 'opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(2)]:-rotate-45 [&_span:nth-child(3)]:w-0'
             : ''
@@ -35,6 +33,17 @@ export default function SideNavigationUserProfile({
         </div>
       </Button>
 
+      {/* ➕ Add Button */}
+      <Button
+        type="button"
+        onClick={() => setIsSideNavOpen(!isSideNavOpen)}
+        className={`fixed right-6 top-6 z-40 flex items-center gap-2 bg-slate-600 text-white hover:bg-slate-800 px-4 py-2 rounded-full shadow-lg cursor-pointer transition-colors lg:hidden ${
+          isSideNavOpen ? '' : 'hidden'
+        }`}
+      >
+        <Plus size={16} />
+      </Button>
+
       {/* Sidebar */}
       <aside
         id="nav-menu-4"
@@ -42,34 +51,7 @@ export default function SideNavigationUserProfile({
           isSideNavOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* User Profile */}
-        <div className="flex flex-col items-center gap-4 border-b border-slate-200 p-6">
-          <div className="shrink-0">
-            <Link
-              href="/"
-              className="relative flex h-12 w-12 items-center justify-center rounded-full text-white"
-            >
-              {/* <Image
-                src=" "
-                alt="user"
-                width={48}
-                height={48}
-                className="rounded-full"
-              /> */}
-              A
-              <span className="absolute bottom-0 right-0 inline-flex items-center justify-center gap-1 rounded-full border-2 border-white bg-emerald-500 p-1 text-sm text-white" />
-            </Link>
-          </div>
-          <div className="text-center">
-            <h4 className="truncate text-base text-slate-700">
-              Luke Skywalker
-            </h4>
-            <p className="truncate text-sm text-slate-500">Jedi warrior</p>
-          </div>
-        </div>
-
-        {/* Navigation Links */}
-        <nav className="flex-1 overflow-auto divide-y divide-slate-100">
+        <nav className="flex-1 overflow-auto divide-y divide-slate-100 pt-6">
           <ul className="flex flex-col gap-1 py-3">
             <li className="px-3">
               <Link
@@ -89,7 +71,6 @@ export default function SideNavigationUserProfile({
                 <span className="truncate text-sm">Add Book</span>
               </Link>
             </li>
-            {/* Repeat similar <li> for other nav links */}
           </ul>
         </nav>
       </aside>
@@ -103,12 +84,7 @@ export default function SideNavigationUserProfile({
       />
 
       {/* Page Content */}
-      <main className="flex-1 p-6 ml-0 lg:ml-72">
-        <div className="flex justify-end mb-4">
-          <UserButton />
-        </div>
-        {children}
-      </main>
+      <main className="flex-1 p-6 ml-0 lg:ml-72">{children}</main>
     </>
   );
 }

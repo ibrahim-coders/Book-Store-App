@@ -102,7 +102,7 @@ export const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t py-4">
+          <div className="md:hidden absolute top-16 left-0 w-full bg-white border-t p-4 z-50 shadow-lg  ">
             <nav className="flex flex-col space-y-2">
               {['/', '/books', '/bestsellers', '/about'].map((path, index) => {
                 const labels = ['Home', 'Books', 'Bestsellers', 'About'];
